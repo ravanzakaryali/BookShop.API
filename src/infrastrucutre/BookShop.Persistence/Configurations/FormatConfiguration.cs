@@ -10,5 +10,6 @@ public class FormatConfiguration : IEntityTypeConfiguration<Format>
     public void Configure(EntityTypeBuilder<Format> builder)
     {
         builder.ConfigureBaseEntity();
+        builder.Property(f=>f.Name).HasMaxLength(64);
     }
 }

@@ -1,8 +1,5 @@
-﻿using BookShop.Application.Asbtarcts.Services.Storage.Azure;
-using BookShop.Application.Asbtarcts.UnitOfWork;
-using BookShop.Application.Contracts.UnitOfWork;
+﻿using BookShop.Application.Asbtarcts.UnitOfWork;
 using FluentValidation;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -15,7 +12,6 @@ public static class ConfigureServices
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
 }

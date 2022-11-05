@@ -1,4 +1,4 @@
-﻿namespace BookShop.Application.DTOs.FileDto;
+﻿namespace BookShop.Application.DTOs;
 
 public class FileUploadResponse
 {

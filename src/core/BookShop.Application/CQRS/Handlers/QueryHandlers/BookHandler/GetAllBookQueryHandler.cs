@@ -8,7 +8,7 @@ using System.Collections;
 
 namespace BookShop.Application.CQRS.Handlers.QueryHandlers.BookHandler;
 
-public class GetAllBookQueryHandler : IRequestHandler<GetAllBooksQueryRequest, List<GetAllBookQueryResponse>>
+internal class GetAllBookQueryHandler : IRequestHandler<GetAllBooksQueryRequest, List<GetAllBookQueryResponse>>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ public class GetAllBookQueryHandler : IRequestHandler<GetAllBooksQueryRequest, L
     }
     public async Task<List<GetAllBookQueryResponse>> Handle(GetAllBooksQueryRequest request, CancellationToken cancellationToken)
     {
-        List<Book> books = await _unitOfWork.BookRepository.GetAllAsync(request.Page, request.Size, r => r.Title, includes: "BookImages");
+        List<Book> books = await _unitOfWork.BookRepository.GetAllAsync(request.Page, request.Size, r => r.Name, includes: "BookImages");
         List<GetAllBookQueryResponse> responses = new();
         IEnumerable<string> bookImages = books.SelectMany(b => b.BookImages).Where(b => b.IsMain == true).Select(b => b.Name);
 
@@ -30,7 +30,7 @@ public class GetAllBookQueryHandler : IRequestHandler<GetAllBooksQueryRequest, L
             GetAllBookQueryResponse response = _mapper.Map<GetAllBookQueryResponse>(b);
             if (bookImage != null)
             {
-                response.ImageUrl = bookImage.Path + bookImage.Name;
+                response.ImageUrl = bookImage.StorageUrl + bookImage.Name;
             }
             responses.Add(response);
         });

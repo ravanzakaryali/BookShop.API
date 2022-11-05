@@ -2,4 +2,4 @@
 
 namespace BookShop.Application.CQRS.Queries.Request.BookRequest;
 
-public record GetAllBooksByCategoryRequest(int Page,int Size,string CategoryId) : IRequest<List<GetAllBookQueryResponse>>;
+public record GetAllBooksByCategoryRequest(int Page,int Size,string categoryName) : IRequest<List<GetAllBookQueryResponse>>;

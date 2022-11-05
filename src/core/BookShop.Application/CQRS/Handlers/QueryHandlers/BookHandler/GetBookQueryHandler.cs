@@ -1,11 +1,11 @@
 ﻿using BookShop.Application.Asbtarcts.UnitOfWork;
 using BookShop.Application.CQRS.Queries.Request.BookRequest;
 using BookShop.Application.CQRS.Queries.Response.BookResponse;
-using BookShop.Application.DTOs.FileDto;
+using BookShop.Application.DTOs;
 
 namespace BookShop.Application.CQRS.Handlers.QueryHandlers.BookHandler;
 
-public class GetBookQueryHandler : IRequestHandler<GetBookQueryRequest, GetBookQueryResponse>
+internal class GetBookQueryHandler : IRequestHandler<GetBookQueryRequest, GetBookQueryResponse>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
@@ -20,14 +20,14 @@ public class GetBookQueryHandler : IRequestHandler<GetBookQueryRequest, GetBookQ
     {
         Book? book = await _unitOfWork.BookRepository.GetAsync(
             b => b.NormalizationName == request.BookUrlName,
-            tracking: false,
-            nameof(BookPrice),
+            tracking: true,
+            "BookPrices",
             nameof(Vendor),
             nameof(Category),
             nameof(E.Type),
-            nameof(Format),
-            nameof(Language),
-            nameof(BookImage));
+            "Formats",
+            "Languages",
+            "BookImages");
 
         if (book is null) throw new Exception("Book not found"); // Todo: Book Exception
 
@@ -38,7 +38,7 @@ public class GetBookQueryHandler : IRequestHandler<GetBookQueryRequest, GetBookQ
         {
             images.Add(new ImageGetDto
             {
-                ImageUrl = i.Path + i.Name 
+                ImageUrl = i.StorageUrl + i.Name 
             });
         });
         response.BookImages = images;

@@ -67,6 +67,21 @@ namespace BookShop.Persistence.Migrations
                     b.ToTable("BookLanguage");
                 });
 
+            modelBuilder.Entity("BookSale", b =>
+                {
+                    b.Property<string>("BooksId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SalesId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("BooksId", "SalesId");
+
+                    b.HasIndex("SalesId");
+
+                    b.ToTable("BookSale");
+                });
+
             modelBuilder.Entity("BookShop.Domain.Entities.Author", b =>
                 {
                     b.Property<string>("Id")
@@ -76,10 +91,9 @@ namespace BookShop.Persistence.Migrations
 
                     b.Property<string>("AuthorImageId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -108,7 +122,17 @@ namespace BookShop.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NormalizationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorImageId")
+                        .IsUnique();
+
+                    b.HasIndex("NormalizationName")
+                        .IsUnique();
 
                     b.ToTable("Authors");
                 });
@@ -140,8 +164,6 @@ namespace BookShop.Persistence.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("IsDeleted");
-
                     b.ToTable("AuthorAwards");
                 });
 
@@ -162,8 +184,6 @@ namespace BookShop.Persistence.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
 
                     b.HasIndex("UserId");
 
@@ -204,8 +224,6 @@ namespace BookShop.Persistence.Migrations
 
                     b.HasIndex("CustomerUserId");
 
-                    b.HasIndex("IsDeleted");
-
                     b.ToTable("BasketItem");
                 });
 
@@ -217,7 +235,6 @@ namespace BookShop.Persistence.Migrations
                         .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -242,19 +259,22 @@ namespace BookShop.Persistence.Migrations
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("NormalizationName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("NormalizationName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NormalizationName")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -271,16 +291,11 @@ namespace BookShop.Persistence.Migrations
                     b.Property<double>("AverageRating")
                         .HasColumnType("float");
 
-                    b.Property<string>("BookPriceId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CategoryId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -291,6 +306,9 @@ namespace BookShop.Persistence.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DiscountId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -305,13 +323,13 @@ namespace BookShop.Persistence.Migrations
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("NormalizationName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("NormalizationName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("TypeId")
                         .HasColumnType("nvarchar(450)");
@@ -323,6 +341,9 @@ namespace BookShop.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("NormalizationName")
+                        .IsUnique();
 
                     b.HasIndex("TypeId");
 
@@ -359,12 +380,9 @@ namespace BookShop.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId")
-                        .IsUnique();
+                    b.HasIndex("BookId");
 
                     b.HasIndex("FormatId");
-
-                    b.HasIndex("IsDeleted");
 
                     b.HasIndex("LanguageId");
 
@@ -387,12 +405,17 @@ namespace BookShop.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NormalizationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("SubCategoryId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IsDeleted");
+                    b.HasIndex("NormalizationName")
+                        .IsUnique();
 
                     b.HasIndex("SubCategoryId");
 
@@ -415,7 +438,6 @@ namespace BookShop.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -453,6 +475,66 @@ namespace BookShop.Persistence.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("BookShop.Domain.Entities.Discount", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<string>("BookId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("Getutcdate()");
+
+                    b.Property<decimal>("DiscounAmaount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("EndedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FormatId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("LanguageId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LastModifedBy")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId")
+                        .IsUnique();
+
+                    b.HasIndex("FormatId");
+
+                    b.HasIndex("LanguageId");
+
+                    b.ToTable("Discounts");
+                });
+
             modelBuilder.Entity("BookShop.Domain.Entities.File", b =>
                 {
                     b.Property<string>("Id")
@@ -461,7 +543,6 @@ namespace BookShop.Persistence.Migrations
                         .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -497,6 +578,10 @@ namespace BookShop.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("StorageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Files");
@@ -518,11 +603,17 @@ namespace BookShop.Persistence.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("NormalizationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IsDeleted");
+                    b.HasIndex("NormalizationName")
+                        .IsUnique();
 
                     b.ToTable("Formats");
                 });
@@ -549,8 +640,6 @@ namespace BookShop.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IsDeleted");
-
                     b.ToTable("Languages");
                 });
 
@@ -570,7 +659,6 @@ namespace BookShop.Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -611,6 +699,87 @@ namespace BookShop.Persistence.Migrations
                     b.ToTable("Reviews");
                 });
 
+            modelBuilder.Entity("BookShop.Domain.Entities.Sale", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Apartment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EmailOrNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Firstname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastModifedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Lastname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostalCode")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sales");
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.Subscribe", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("Subscribe");
+                });
+
             modelBuilder.Entity("BookShop.Domain.Entities.Type", b =>
                 {
                     b.Property<string>("Id")
@@ -629,11 +798,12 @@ namespace BookShop.Persistence.Migrations
 
                     b.Property<string>("NormalizationName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IsDeleted");
+                    b.HasIndex("NormalizationName")
+                        .IsUnique();
 
                     b.ToTable("Types");
                 });
@@ -661,8 +831,6 @@ namespace BookShop.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BookId");
-
-                    b.HasIndex("IsDeleted");
 
                     b.HasIndex("UserId");
 
@@ -881,11 +1049,6 @@ namespace BookShop.Persistence.Migrations
                 {
                     b.HasBaseType("BookShop.Domain.Entities.File");
 
-                    b.Property<string>("AuthorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasIndex("AuthorId");
-
                     b.HasDiscriminator().HasValue("AuthorImage");
                 });
 
@@ -986,6 +1149,32 @@ namespace BookShop.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("BookSale", b =>
+                {
+                    b.HasOne("BookShop.Domain.Entities.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BooksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookShop.Domain.Entities.Sale", null)
+                        .WithMany()
+                        .HasForeignKey("SalesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.Author", b =>
+                {
+                    b.HasOne("BookShop.Domain.Entities.AuthorImage", "AuthorImage")
+                        .WithOne("Author")
+                        .HasForeignKey("BookShop.Domain.Entities.Author", "AuthorImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AuthorImage");
+                });
+
             modelBuilder.Entity("BookShop.Domain.Entities.AuthorAward", b =>
                 {
                     b.HasOne("BookShop.Domain.Entities.Author", null)
@@ -1046,7 +1235,7 @@ namespace BookShop.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookShop.Domain.Entities.Type", "Types")
+                    b.HasOne("BookShop.Domain.Entities.Type", "Type")
                         .WithMany("Books")
                         .HasForeignKey("TypeId");
 
@@ -1058,7 +1247,7 @@ namespace BookShop.Persistence.Migrations
 
                     b.Navigation("Category");
 
-                    b.Navigation("Types");
+                    b.Navigation("Type");
 
                     b.Navigation("Vendor");
                 });
@@ -1066,8 +1255,8 @@ namespace BookShop.Persistence.Migrations
             modelBuilder.Entity("BookShop.Domain.Entities.BookPrice", b =>
                 {
                     b.HasOne("BookShop.Domain.Entities.Book", "Book")
-                        .WithOne("BookPrice")
-                        .HasForeignKey("BookShop.Domain.Entities.BookPrice", "BookId")
+                        .WithMany("BookPrices")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1114,6 +1303,31 @@ namespace BookShop.Persistence.Migrations
                     b.Navigation("Blog");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.Discount", b =>
+                {
+                    b.HasOne("BookShop.Domain.Entities.Book", "Book")
+                        .WithOne("Discount")
+                        .HasForeignKey("BookShop.Domain.Entities.Discount", "BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookShop.Domain.Entities.Format", "Format")
+                        .WithMany()
+                        .HasForeignKey("FormatId");
+
+                    b.HasOne("BookShop.Domain.Entities.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Format");
+
+                    b.Navigation("Language");
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.Review", b =>
@@ -1205,15 +1419,6 @@ namespace BookShop.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BookShop.Domain.Entities.AuthorImage", b =>
-                {
-                    b.HasOne("BookShop.Domain.Entities.Author", "Author")
-                        .WithMany("AuthorImage")
-                        .HasForeignKey("AuthorId");
-
-                    b.Navigation("Author");
-                });
-
             modelBuilder.Entity("BookShop.Domain.Entities.BlogImage", b =>
                 {
                     b.HasOne("BookShop.Domain.Entities.Blog", "Blog")
@@ -1234,8 +1439,6 @@ namespace BookShop.Persistence.Migrations
 
             modelBuilder.Entity("BookShop.Domain.Entities.Author", b =>
                 {
-                    b.Navigation("AuthorImage");
-
                     b.Navigation("Awards");
                 });
 
@@ -1257,8 +1460,9 @@ namespace BookShop.Persistence.Migrations
 
                     b.Navigation("BookImages");
 
-                    b.Navigation("BookPrice")
-                        .IsRequired();
+                    b.Navigation("BookPrices");
+
+                    b.Navigation("Discount");
 
                     b.Navigation("Reviews");
 
@@ -1275,6 +1479,12 @@ namespace BookShop.Persistence.Migrations
             modelBuilder.Entity("BookShop.Domain.Entities.Type", b =>
                 {
                     b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("BookShop.Domain.Entities.AuthorImage", b =>
+                {
+                    b.Navigation("Author")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BookShop.Domain.Entities.BlogerUser", b =>

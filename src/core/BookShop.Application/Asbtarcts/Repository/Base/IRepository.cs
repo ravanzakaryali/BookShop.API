@@ -57,9 +57,8 @@ public interface IRepository<TDbContext, TEntity, TKey>
         bool tracking = true,
         params string[] includes);
 
-    Task AddAsync(TEntity entity);
+    Task<TEntity> AddAsync(TEntity entity);
     void Update(TEntity entity);
-    void Remove(TEntity entity);
+    TEntity Remove(TEntity entity);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-
 }

@@ -1,7 +1,6 @@
 ﻿namespace BookShop.Api.Controllers.v1.Base
 {
-    [ApiVersion("1"), Route("api/v{ver:apiVersion}/[controller]"), ApiController]
-
+    [ApiVersion("1"), ApiController]
     public class ApiController : ControllerBase
     {
         private ISender? _mediator = null;

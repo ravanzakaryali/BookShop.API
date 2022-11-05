@@ -1,6 +1,9 @@
-﻿namespace BookShop.Application.DTOs.CategoryDtos;
+﻿using BookShop.Application.Common;
 
-public class CategoryGetDto
+namespace BookShop.Application.DTOs;
+
+public class CategoryGetDto : IMapFrom<Category>
 {
+    public string Id { get; set; } = null!;
     public string Name { get; set; } = null!;
 }

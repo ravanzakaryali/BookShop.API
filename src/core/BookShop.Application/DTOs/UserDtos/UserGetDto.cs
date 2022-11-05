@@ -1,4 +1,4 @@
-﻿namespace BookShop.Application.DTOs.UserDtos;
+﻿namespace BookShop.Application.DTOs;
 
 public class UserGetDto
 {

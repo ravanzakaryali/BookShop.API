@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Reflection.Emit;
 
 namespace BookShop.Persistence.Configurations.Common;
 
@@ -19,8 +21,8 @@ public static class ConfigurationExtensions
         where TEntity : BaseAuditableEntity<string>
     {
         builder.ConfigureBaseEntity();
-        builder.Property(e => e.CreatedBy).HasMaxLength(200).IsRequired();
-        builder.Property(e => e.CreatedDate).HasDefaultValueSql("Getutcdate()").IsRequired();
+        builder.Property(e => e.CreatedBy).HasMaxLength(200).IsRequired(false);
+        builder.Property(e => e.CreatedDate).HasDefaultValueSql("Getutcdate()");
         builder.Property(e => e.LastModifedBy).HasMaxLength(200);
         return builder;
     }

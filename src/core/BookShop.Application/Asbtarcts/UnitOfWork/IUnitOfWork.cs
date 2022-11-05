@@ -1,6 +1,4 @@
-﻿using BookShop.Application.Asbtarcts.Repository;
-
-namespace BookShop.Application.Asbtarcts.UnitOfWork;
+﻿namespace BookShop.Application.Asbtarcts.UnitOfWork;
 
 public interface IUnitOfWork
 {
@@ -10,5 +8,10 @@ public interface IUnitOfWork
     IBookRepository BookRepository { get; }
     IReviewRepository ReviewRepository { get; }
     IBlogRepository BlogRepository { get; }
+    IBookImageRepository BookImageRepository { get; }
+    ICategoryRepository CategoryRepository { get; }
+    IFormatRepository FormatRepository { get; }
+    ITypeRepository TypeRepository { get; }
+    ISubscribeRepository SubscribeRepository { get; }
     Task<int> SaveChangesAsync();
 }

@@ -10,9 +10,11 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
     public void Configure(EntityTypeBuilder<Book> builder)
     {
         builder.ConfigureAuditableBaseEntity();
-        builder.HasOne(b => b.BookPrice)
+
+        builder.HasOne(b => b.Discount)
                .WithOne(p => p.Book)
-               .HasForeignKey<BookPrice>(p => p.BookId);
+               .HasForeignKey<Discount>(p => p.BookId);
+
         builder
         .HasMany(b => b.Reviews)
         .WithOne(c => c.Book)
@@ -30,6 +32,13 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
           .WithOne(c => c.Book)
           .HasForeignKey(c => c.BookId)
           .OnDelete(DeleteBehavior.Restrict);
+
+        builder
+         .HasMany(b => b.BasketItems)
+         .WithOne(c => c.Book)
+         .HasForeignKey(c => c.BookId)
+         .OnDelete(DeleteBehavior.Restrict);
+
 
 
     }

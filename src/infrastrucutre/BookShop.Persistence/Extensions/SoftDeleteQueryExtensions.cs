@@ -23,7 +23,7 @@ public static class SoftDeleteQueryExtension
     private static LambdaExpression GetSoftDeleteFilter<TEntity>()
         where TEntity : BaseEntity
     {
-        Expression<Func<TEntity, bool>> filter = e => !e.IsDeleted;
+        Expression<Func<TEntity, bool>> filter = e => e.IsDeleted;
         return filter;
     }
 }

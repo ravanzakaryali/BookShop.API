@@ -11,21 +11,24 @@ public class Book : BaseAuditableEntity, INormalizationName
         BookImages = new HashSet<BookImage>();
         BasketItems = new HashSet<BasketItem>();
         WishlistItems = new HashSet<Wishlist>();
+        BookPrices = new HashSet<BookPrice>();
+        Sales = new HashSet<Sale>();
     }
     public string Name { get; set; } = null!;
     public string NormalizationName { get; set; } = null!;
     public string Description { get; set; } = null!;
     public double AverageRating { get; set; }
 
-    public Vendor Vendor { get; set; } = null!;
     public string VendorId { get; set; } = null!;
-    public string BookPriceId { get; set; } = null!;
-    public BookPrice BookPrice { get; set; } = null!;
-    public Category Category { get; set; } = null!;
+    public Vendor Vendor { get; set; } = null!;
     public string CategoryId { get; set; } = null!;
-    public Type? Types { get;set; } 
+    public Category Category { get; set; } = null!;
     public string? TypeId { get; set; }
-
+    public Type? Type { get;set; } 
+    public string? DiscountId { get; set; }
+    public Discount? Discount { get; set; } 
+    public ICollection<Sale> Sales { get; set; }
+    public ICollection<BookPrice> BookPrices { get; set; }
     public ICollection<Format> Formats { get; set; }
     public ICollection<Author> Authors { get; set; }
     public ICollection<Language> Languages { get; set; }

@@ -1,7 +1,6 @@
-﻿using BookShop.Application.Asbtarcts.Common;
-using BookShop.Domain.Entities;
+﻿using BookShop.Application.Common;
 
-namespace BookShop.Application.DTOs.LanguageDtos;
+namespace BookShop.Application.DTOs;
 
 public class LanguageGetDto : IMapFrom<Language>
 {

@@ -1,6 +1,6 @@
 ﻿namespace BookShop.Domain.Entities;
 
-public class Format : BaseEntity
+public class Format : BaseEntity, INormalizationName
 {
     public Format()
     {
@@ -8,4 +8,5 @@ public class Format : BaseEntity
     }
     public string Name { get; set; } = null!;
     public ICollection<Book> Books { get; set; }
+    public string NormalizationName { get; set; } = null!;
 }

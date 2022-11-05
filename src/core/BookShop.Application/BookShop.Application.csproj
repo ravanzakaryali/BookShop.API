@@ -13,7 +13,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Contracts\Services\" />
 		<Folder Include="CQRS\Handlers\QueryHandlers\CommentHandler\" />
 		<Folder Include="CQRS\Queries\Request\CommentRequest\" />
 		<Folder Include="CQRS\Queries\Response\CommentResponse\" />
@@ -22,6 +21,7 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
 		<PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2" />
 	</ItemGroup>

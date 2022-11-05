@@ -11,7 +11,7 @@ public class Blog : BaseAuditableEntity, INormalizationName
     public BlogerUser User { get; set; } = null!;
     public string UserId { get; set; } = null!;
     public string Description { get; set; } = null!;
-    public ICollection<Comment> Comments { get; set; }
     public string NormalizationName { get; set; } = null!;
+    public ICollection<Comment> Comments { get; set; }
     public ICollection<BlogImage> BlogImages { get; set; } = null!;
 }

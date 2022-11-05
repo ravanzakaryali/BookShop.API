@@ -8,10 +8,17 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.13.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.10" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\core\BookShop.Application\BookShop.Application.csproj" />
+    <ProjectReference Include="..\BookShop.Persistence\BookShop.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Contracts\Common\" />
+    <Folder Include="Contracts\Services\" />
   </ItemGroup>
 
 </Project>

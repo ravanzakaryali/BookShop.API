@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\infrastrucutre\BookShop.Infrastructure\BookShop.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\src\infrastrucutre\BookShop.Persistence\BookShop.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

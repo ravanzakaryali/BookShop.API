@@ -1,6 +1,9 @@
-﻿namespace BookShop.Application.DTOs.FormatDtos;
+﻿using BookShop.Application.Common;
 
-public class FormatGetDto
+namespace BookShop.Application.DTOs;
+
+public class FormatGetDto : IMapFrom<Format>
 {
+    public string Id { get; set; } = null!;
     public string Name { get; set; } = null!;
 }

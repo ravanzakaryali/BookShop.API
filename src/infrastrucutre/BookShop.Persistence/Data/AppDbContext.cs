@@ -2,12 +2,15 @@
 using BookShop.Domain.Base;
 using BookShop.Domain.Entities;
 using BookShop.Domain.Identity;
-using BookShop.Persistence.Extensions;
 using BookShop.Persistence.Interceptor;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Query;
+using System.Linq.Expressions;
 using System.Reflection;
+using E = BookShop.Domain.Entities;
 
 namespace BookShop.Persistence.Data;
 
@@ -31,7 +34,7 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, string>, IApplic
     public DbSet<Format> Formats => Set<Format>();
     public DbSet<Language> Languages => Set<Language>();
     public DbSet<Review> Reviews => Set<Review>();
-    //public DbSet<Sale> Sales => Set<Sale>();
+    public DbSet<Sale> Sales => Set<Sale>();
     public DbSet<Vendor> Vendors => Set<Vendor>();
     public DbSet<BasketItem> Carts => Set<BasketItem>();
     public DbSet<AuthorImage> AuthorImages => Set<AuthorImage>();
@@ -42,21 +45,33 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, string>, IApplic
     public DbSet<Domain.Entities.Type> Types => Set<Domain.Entities.Type>();
     public DbSet<Wishlist> Wishlists => Set<Wishlist>();
     public DbSet<Wishlist> WishlistItems => Set<Wishlist>();
+    public DbSet<Discount> Discounts => Set<Discount>();
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        foreach (IMutableEntityType entityType in builder.Model.GetEntityTypes())
+        Expression<Func<BaseAuditableEntity, bool>> filterExpr = bm => !bm.IsDeleted;
+        foreach (IMutableEntityType mutableEntityType in builder.Model.GetEntityTypes())
         {
-            if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))
+            if (mutableEntityType.ClrType.IsAssignableTo(typeof(BaseAuditableEntity)) && 
+               !mutableEntityType.ClrType.IsAssignableTo(typeof(E.File)))
             {
-                entityType.AddSoftDeleteQueryFilter();
+                ParameterExpression parameter = Expression.Parameter(mutableEntityType.ClrType);
+                Expression? body = ReplacingExpressionVisitor.Replace(filterExpr.Parameters.First(), parameter, filterExpr.Body);
+                LambdaExpression lambdaExpression = Expression.Lambda(body, parameter);
+                mutableEntityType.SetQueryFilter(lambdaExpression);
+            }
+            if (typeof(INormalizationName).IsAssignableFrom(mutableEntityType.ClrType))
+            {
+                builder.Entity(mutableEntityType.ClrType).HasIndex("NormalizationName").IsUnique();
             }
         }
+
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(builder);
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.AddInterceptors(this._auditableEntitySaveChangesInterceptor);
+        optionsBuilder.AddInterceptors(_auditableEntitySaveChangesInterceptor);
         base.OnConfiguring(optionsBuilder);
     }
 }

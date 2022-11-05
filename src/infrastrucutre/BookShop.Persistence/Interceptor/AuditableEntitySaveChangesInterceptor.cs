@@ -4,9 +4,8 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
-using BookShop.Application.Asbtarcts.Repository.Base;
-using BookShop.Persistence.Data;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+using BookShop.Domain.Entities;
+using BookShop.Application.Extensions;
 
 namespace BookShop.Persistence.Interceptor;
 
@@ -41,13 +40,15 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
                 entity.Entity.LastModifiedDate = _dateTime.Now;
                 entity.Entity.LastModifedBy = name;
             }
+            else if (entity.State == EntityState.Deleted)
+            {
+                entity.State = EntityState.Modified;
+                entity.Entity.IsDeleted = true;
+            }
         }
         foreach (EntityEntry<INormalizationName> entity in context.ChangeTracker.Entries<INormalizationName>())
         {
-            if (entity.State == EntityState.Added)
-            {
-                entity.Entity.NormalizationName = entity.Entity.Name.Replace(" ","_").ToLower();
-            }
+            entity.Entity.NormalizationName = entity.Entity.Name.CharacterRegulatory(int.MaxValue);
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿using BookShop.Application.Asbtarcts.Common;
-using BookShop.Application.DTOs.VendorDtos;
-using BookShop.Domain.Entities;
+﻿using BookShop.Application.Common;
+using BookShop.Application.DTOs;
 
 namespace BookShop.Application.CQRS.Queries.Response.BookResponse;
 
-public class GetAllBookQueryResponse : IMapFrom<Book>
+internal class GetAllBookQueryResponse : IMapFrom<Book>
 {
     public string ImageUrl { get; set; } = null!;
     public VendorGetDto Vendor { get; set; } = null!;

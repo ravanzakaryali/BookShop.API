@@ -20,10 +20,11 @@ public interface IApplicationDbContext
     DbSet<Format> Formats { get; }
     DbSet<Language> Languages { get; }
     DbSet<Review> Reviews { get; }
-    //DbSet<Sale> Sales { get; }
+    DbSet<Sale> Sales { get; }
     DbSet<E.Type> Types { get; }
     DbSet<Vendor> Vendors { get; }
     DbSet<Wishlist> Wishlists { get; }
     DbSet<Wishlist> WishlistItems { get; }
+    DbSet<Discount> Discounts { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

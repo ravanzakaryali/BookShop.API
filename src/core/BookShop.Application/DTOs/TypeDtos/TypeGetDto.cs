@@ -1,5 +1,6 @@
-﻿using BookShop.Application.Asbtarcts.Common;
-namespace BookShop.Application.DTOs.TypeDtos;
+﻿using BookShop.Application.Common;
+
+namespace BookShop.Application.DTOs;
 
 public class TypeGetDto : IMapFrom<E.Type>
 {

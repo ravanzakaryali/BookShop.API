@@ -1,7 +1,7 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using BookShop.Application.Asbtarcts.Services.Storage.Azure;
-using BookShop.Application.DTOs.FileDto;
+using BookShop.Application.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
@@ -10,7 +10,7 @@ namespace BookShop.Infrastructure.Services.Storage.Azure
     public class AzureStorage : StorageHelper, IAzureStorage
     {
         readonly BlobServiceClient _blobServiceClient;
-        BlobContainerClient _blobContainerClient;
+        BlobContainerClient? _blobContainerClient;
         public AzureStorage(IConfiguration configuration)
         {
             _blobServiceClient = new(configuration.GetConnectionString("Azure"));
@@ -35,7 +35,7 @@ namespace BookShop.Infrastructure.Services.Storage.Azure
             return _blobContainerClient.GetBlobs().Any(b => b.Name == fileName);
         }
 
-        public async Task<List<FileUploadResponse>> UploadAsync(IFormFileCollection files, string containerName = "files", string username = "username")
+        public async Task<List<FileUploadResponse>> UploadAsync(IFormFileCollection files, string containerName = "files", string text = "image")
         {
             _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
             await _blobContainerClient.CreateIfNotExistsAsync();
@@ -44,7 +44,7 @@ namespace BookShop.Infrastructure.Services.Storage.Azure
             List<FileUploadResponse> response = new();
             foreach (var file in files)
             {
-                string fileNewName = FileRename(file.FileName, username, containerName, HasFile);
+                string fileNewName = FileRename(file.FileName, text, containerName, HasFile);
                 BlobClient blobClient = _blobContainerClient.GetBlobClient(fileNewName);
                 await blobClient.UploadAsync(file.OpenReadStream());
                 response.Add(new FileUploadResponse
@@ -54,6 +54,21 @@ namespace BookShop.Infrastructure.Services.Storage.Azure
                 });
             }
             return response;
+        }
+        public async Task<FileUploadResponse> UploadAsync(IFormFile file, string containerName = "files", string text = "image")
+        {
+            _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            await _blobContainerClient.CreateIfNotExistsAsync();
+            await _blobContainerClient.SetAccessPolicyAsync(PublicAccessType.BlobContainer);
+
+            string fileNewName = FileRename(file.FileName, text, containerName, HasFile);
+            BlobClient blobClient = _blobContainerClient.GetBlobClient(fileNewName);
+            await blobClient.UploadAsync(file.OpenReadStream());
+            return new FileUploadResponse
+            {
+                ContainerName = containerName,
+                FileName = fileNewName,
+            };
         }
     }
 }

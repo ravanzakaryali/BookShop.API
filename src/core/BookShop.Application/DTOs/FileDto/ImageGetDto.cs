@@ -1,9 +1,10 @@
-﻿using BookShop.Application.Asbtarcts.Common;
-using BookShop.Domain.Entities;
+﻿using BookShop.Application.Common;
 
-namespace BookShop.Application.DTOs.FileDto;
+namespace BookShop.Application.DTOs;
 
-public class ImageGetDto 
+public class ImageGetDto
 {
+    public string Id { get; set; } = null!;
+    public bool IsMain { get; set; }
     public string ImageUrl { get; set; } = null!;
 }

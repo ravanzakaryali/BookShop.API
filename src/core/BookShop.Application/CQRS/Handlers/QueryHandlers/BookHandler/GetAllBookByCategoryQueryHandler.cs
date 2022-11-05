@@ -4,7 +4,7 @@ using BookShop.Application.CQRS.Queries.Response.BookResponse;
 
 namespace BookShop.Application.CQRS.Handlers.QueryHandlers.BookHandler;
 
-public class GetAllBookByCategoryQueryHandler : IRequestHandler<GetAllBooksByCategoryRequest, List<GetAllBookQueryResponse>>
+internal class GetAllBookByCategoryQueryHandler : IRequestHandler<GetAllBooksByCategoryRequest, List<GetAllBookQueryResponse>>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
@@ -20,8 +20,8 @@ public class GetAllBookByCategoryQueryHandler : IRequestHandler<GetAllBooksByCat
         List<Book> books = await _unitOfWork.BookRepository.GetAllAsync(
             request.Page,
             request.Size,
-            predicate: b => b.CategoryId == request.CategoryId,
-            orderBy: r => r.Title,
+            predicate: b => b.NormalizationName == request.categoryName,
+            orderBy: r => r.Name,
             includes: "BookImages");
 
         List<GetAllBookQueryResponse> listResponse = new();
@@ -33,7 +33,7 @@ public class GetAllBookByCategoryQueryHandler : IRequestHandler<GetAllBooksByCat
             GetAllBookQueryResponse response = _mapper.Map<GetAllBookQueryResponse>(b);
             if (bookImage != null)
             {
-                response.ImageUrl = bookImage.Path + bookImage.Name;
+                response.ImageUrl = bookImage.StorageUrl + bookImage.Name;
             }
             listResponse.Add(response);
         });
