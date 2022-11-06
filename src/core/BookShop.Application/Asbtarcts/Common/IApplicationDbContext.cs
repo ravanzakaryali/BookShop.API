@@ -1,4 +1,6 @@
-﻿namespace BookShop.Application.Asbtarcts.Common;
+﻿using System.Dynamic;
+
+namespace BookShop.Application.Asbtarcts.Common;
 
 public interface IApplicationDbContext
 {
@@ -26,5 +28,6 @@ public interface IApplicationDbContext
     DbSet<Wishlist> Wishlists { get; }
     DbSet<Wishlist> WishlistItems { get; }
     DbSet<Discount> Discounts { get; }
+    DbSet<TEntity> Set<TEntity>() where TEntity : class; 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

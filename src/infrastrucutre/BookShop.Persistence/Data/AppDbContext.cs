@@ -46,6 +46,7 @@ public class AppDbContext : IdentityDbContext<AppUser, AppRole, string>, IApplic
     public DbSet<Wishlist> Wishlists => Set<Wishlist>();
     public DbSet<Wishlist> WishlistItems => Set<Wishlist>();
     public DbSet<Discount> Discounts => Set<Discount>();
+    
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

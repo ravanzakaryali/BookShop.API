@@ -12,7 +12,7 @@ public class UpdateBookValidator : AbstractValidator<BookUpdateRequest>
     public UpdateBookValidator(IValidation validation)
     {
         _validation = validation;
-        RuleFor(c => c.BookDto.Name).MustAsync(_validation.UniqueAsync<Book>).MaximumLength(128);
+        RuleFor(c => c.BookDto.Name).Must(_validation.Unique<Book>).MaximumLength(128);
         RuleFor(c => c.BookDto.Price).NotEmpty().NotNull().GreaterThan(0);
         RuleFor(c => c.BookDto.Description).NotNull().NotEmpty();
     }

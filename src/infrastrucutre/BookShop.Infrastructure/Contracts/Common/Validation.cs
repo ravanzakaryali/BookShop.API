@@ -10,9 +10,9 @@ namespace BookShop.Infrastructure.Contracts.Common;
 
 public class Validation : IValidation
 {
-    private readonly AppDbContext _dbContext;
+    private readonly IApplicationDbContext _dbContext;
 
-    public Validation(AppDbContext dbContext)
+    public Validation(IApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -26,10 +26,10 @@ public class Validation : IValidation
     public bool CheckFile(IEnumerable<IFormFile> formFiles)
          => formFiles.ToList().Any(f => f.CheckSize(5120) && f.CheckType("image"));
 
-    public async Task<bool> UniqueAsync<T>(string name, CancellationToken token) where T : class,INormalizationName
+    public bool Unique<T>(string name) where T : class,INormalizationName
     {
-        if (await _dbContext.Set<T>().FirstOrDefaultAsync(e => e.NormalizationName == name.CharacterRegulatory(int.MaxValue), cancellationToken: token) != null)
-            return true;
-        return false;
+        if (_dbContext.Set<T>().FirstOrDefault(e => e.NormalizationName == name.CharacterRegulatory(int.MaxValue)) != null)
+            return false;
+        return true;
     }
 }

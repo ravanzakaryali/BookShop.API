@@ -7,10 +7,9 @@ namespace BookShop.Application.Validators.CategoryValidator;
 public class CategoryCreateValidator : AbstractValidator<CategoryCreateRequest>
 {
     private readonly IValidation _validation;
-
     public CategoryCreateValidator(IValidation validation)
     {
         _validation = validation;
-        RuleFor(c => c.Name).NotEmpty().NotNull().MaximumLength(32).MustAsync(_validation.UniqueAsync<Category>);
+        RuleFor(c => c.Name).NotEmpty().NotNull().MaximumLength(32).Must(_validation.Unique<Category>);
     }
 }

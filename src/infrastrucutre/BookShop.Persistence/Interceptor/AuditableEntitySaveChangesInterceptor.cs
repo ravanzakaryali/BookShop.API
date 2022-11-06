@@ -14,7 +14,7 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
     private readonly IDateTime _dateTime;
     private readonly IHttpContextAccessor _httpContext;
 
-    public AuditableEntitySaveChangesInterceptor(IDateTime dateTime, IHttpContextAccessor httpContext)
+    public AuditableEntitySaveChangesInterceptor(IDateTime dateTime, IHttpContextAccessor httpContext) 
     {
         _dateTime = dateTime;
         _httpContext = httpContext;

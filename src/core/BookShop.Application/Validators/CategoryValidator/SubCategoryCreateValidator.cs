@@ -10,6 +10,6 @@ internal class SubCategoryCreateValidator : AbstractValidator<SubCategoryCreateR
     public SubCategoryCreateValidator(IValidation validation)
     {
         _validation = validation;
-        RuleFor(sc => sc.Category.Name).NotNull().NotEmpty().MaximumLength(32).MustAsync(_validation.UniqueAsync<Category>);
+        RuleFor(sc => sc.Category.Name).NotNull().NotEmpty().MaximumLength(32).Must(_validation.Unique<Category>);
     }
 }

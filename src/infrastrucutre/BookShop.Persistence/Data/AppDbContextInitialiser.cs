@@ -52,7 +52,7 @@ public class AppDbContextInitialiser
     {
 
         //Identity create
-        AppRole administratorRole = new AppRole
+        AppRole administratorRole = new()
         {
             Name = "Admin"
         };

@@ -2,5 +2,5 @@
 
 public class UserGetRoleResponse
 {
-    public string RoleName { get; set; }
+    public string RoleName { get; set; } = null!;
 }

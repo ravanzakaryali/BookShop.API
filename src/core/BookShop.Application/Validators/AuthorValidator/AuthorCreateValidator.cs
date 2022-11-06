@@ -11,7 +11,12 @@ public class AuthorCreateValidator : AbstractValidator<AuthorCreateRequest>
 	public AuthorCreateValidator(IValidation validation)
 	{
 		_validation = validation;
-		RuleFor(a => a.Name).NotEmpty().NotNull().MaximumLength(64).MustAsync(_validation.UniqueAsync<Author>);
+		RuleFor(a => a.Name)
+			.NotEmpty()
+			.NotNull()
+			.MaximumLength(64)
+			.Must(_validation.Unique<Author>)
+			.WithMessage("Already name");
 		RuleFor(a => a.Description).NotNull().NotEmpty().MinimumLength(16).MaximumLength(256);
 		RuleFor(a => a.ProfileImage).Must(_validation!.CheckFile);
 	}

@@ -4,9 +4,4 @@ using Microsoft.AspNetCore.Http;
 
 namespace BookShop.Application.CQRS.Commands.Request.AuthorRequest;
 
-public record AuthorCreateRequest : IRequest<AuthorCreateResponse>, IMapFrom<Author>
-{
-    public string Name { get; set; } = null!;
-    public string Description { get; set; } = null!;
-    public IFormFile ProfileImage { get; set; } = null!;
-}
+public record AuthorCreateRequest(string Name, string Description, IFormFile ProfileImage) : IRequest<AuthorCreateResponse>, IMapFrom<Author>;

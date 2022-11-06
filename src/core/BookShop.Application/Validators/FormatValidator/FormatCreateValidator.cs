@@ -10,6 +10,6 @@ internal class FormatCreateValidator : AbstractValidator<FormatCreateRequest>
     public FormatCreateValidator(IValidation validation)
     {
         _validation = validation;
-        RuleFor(f => f.Name).MustAsync(_validation.UniqueAsync<Format>).NotNull().NotEmpty().MinimumLength(2).MaximumLength(64);
+        RuleFor(f => f.Name).Must(_validation.Unique<Format>).NotNull().NotEmpty().MinimumLength(2).MaximumLength(64);
     }
 }

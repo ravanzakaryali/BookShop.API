@@ -10,6 +10,6 @@ internal class FormatUpdateValidator : AbstractValidator<FormatUpdateRequest>
     public FormatUpdateValidator(IValidation validation)
     {
         _validation = validation;
-        RuleFor(f => f.Format.Name).MustAsync(_validation.UniqueAsync<Format>).NotNull().NotEmpty().MinimumLength(2).MaximumLength(64);
+        RuleFor(f => f.Format.Name).Must(_validation.Unique<Format>).NotNull().NotEmpty().MinimumLength(2).MaximumLength(64);
     }
 }

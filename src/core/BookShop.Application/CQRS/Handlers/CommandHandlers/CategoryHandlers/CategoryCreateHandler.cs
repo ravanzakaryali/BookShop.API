@@ -16,10 +16,6 @@ public class CategoryCreateHandler : IRequestHandler<CategoryCreateRequest, Cate
     }
     public async Task<CategoryCreateResponse> Handle(CategoryCreateRequest request, CancellationToken cancellationToken)
     {
-        if(_unitOfWork.CategoryRepository.GetAsync(c=>c.NormalizationName == request.Name.CharacterRegulatory(int.MaxValue)) != null)
-        {
-            throw new Exception("Already"); //Todo: Already Exception
-        }
         Category category = await _unitOfWork.CategoryRepository.AddAsync(new Category
         {
             Name = request.Name,
