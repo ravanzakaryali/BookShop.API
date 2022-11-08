@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace BookShop.Application.Validators.CategoryValidator;
 
-internal class SubCategoryCreateValidator : AbstractValidator<SubCategoryCreateRequest>
+public class SubCategoryCreateValidator : AbstractValidator<SubCategoryCreateRequest>
 {
     private readonly IValidation _validation;
     public SubCategoryCreateValidator(IValidation validation)

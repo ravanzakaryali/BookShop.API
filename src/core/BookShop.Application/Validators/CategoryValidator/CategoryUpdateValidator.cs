@@ -11,6 +11,6 @@ public class CategoryUpdateValidator : AbstractValidator<CategoryUpdateRequest>
     public CategoryUpdateValidator(IValidation validation)
     {
         _validation = validation;
-        RuleFor(c => c.Category.Name).Must(_validation.Unique<Category>);
+        RuleFor(c => c.Category.Name).NotNull().NotEmpty().MaximumLength(32).Must(_validation.Unique<Category>);
     }
 }

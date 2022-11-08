@@ -8,7 +8,7 @@ public class BookCreateRequest : IRequest<BookCreateResponse>
     public string Name { get; set; } = null!;
     public string Description { get; set; } = null!;
     public string VendorId { get; set; } = null!;
-    public decimal Price { get; set; }
+    public decimal? Price { get; set; }
     public string CategoryId { get; set; } = null!;
     public string? TypeId { get; set; }
     public int ImageMainTh { get; set; } 

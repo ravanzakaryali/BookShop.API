@@ -1,18 +1,19 @@
 ﻿using BookShop.Application.Asbtarcts.Common;
 using BookShop.Application.CQRS.Commands.Request.AuthorRequest;
-using BookShop.Application.Extensions.FormFileExtensions;
+using BookShop.Application.Extensions;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
 
 namespace BookShop.Application.Validators.AuthorValidator;
 
 public class AuthorImageUpdateValidator : AbstractValidator<AuthorImageUpdateRequest>
 {
-	private readonly IValidation _validation;
+    private readonly IValidation _validation;
 
-	public AuthorImageUpdateValidator(IValidation validation)
-	{
-		_validation = validation;
-		RuleFor(a => a.Image).Must(_validation.CheckFile);
-	}
+    public AuthorImageUpdateValidator(IValidation validation)
+    {
+        _validation = validation;
+        RuleFor(a => a.Image)
+            .FileSize(5120).WithMessage($"File size must be {5120}kb")
+            .FileType("image").WithMessage($"File type must be image");
+    }
 }

@@ -20,7 +20,7 @@ public class AuthorsController : VendorApiController
 
     [HttpPut("update/{id}")]
     public async Task<IActionResult> UpdateAsync([FromRoute] string id, [FromBody] AuthorCommandDto author)
-        => Ok(await Mediator.Send(new AuthorUpdateRequest { Author = author, Id = id }));
+        => Ok(await Mediator.Send(new AuthorUpdateRequest(id,author)));
 
     [HttpDelete("delete/{id}")]
     public async Task<IActionResult> DeleteAsync([FromRoute] string id)
