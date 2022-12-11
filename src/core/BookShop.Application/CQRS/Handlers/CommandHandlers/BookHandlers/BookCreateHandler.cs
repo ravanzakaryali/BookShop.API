@@ -23,7 +23,7 @@ public class BookCreateHandler : IRequestHandler<BookCreateRequest, BookCreateRe
     {
         Book book = _mapper.Map<Book>(request);
         List<FileUploadResponse> response =
-               await _storageService.UploadAsync(request.Files, "bookShop", "Username"); //Todo: login olan username olacaq
+               await _storageService.UploadAsync(request.Files, "bookShop", "Username"); //TODO: login olan username olacaq
         List<BookImage> bookImages = new();
         int count = book.BookImages.Count + request.ImageMainTh;
         for (int i = 0; i < response.Count; i++)

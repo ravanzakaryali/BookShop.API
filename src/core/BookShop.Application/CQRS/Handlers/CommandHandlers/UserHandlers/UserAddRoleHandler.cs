@@ -20,9 +20,9 @@ internal class UserAddRoleHandler : IRequestHandler<UserAddRoleRequest, UserAddR
     public async Task<UserAddRoleResponse> Handle(UserAddRoleRequest request, CancellationToken cancellationToken)
     {
         AppUser user = await _userManager.FindByNameAsync(request.UserName);
-        if (user is null) throw new Exception("User null"); //Todo: Exception user null
+        if (user is null) throw new Exception("User null"); //TODO: Exception user null
         IdentityResult result = await _userManager.AddToRoleAsync(user, request.Role.ToString());
-        if (!result.Succeeded) throw new Exception("Add Role exception"); //Todo: Exception user add role
+        if (!result.Succeeded) throw new Exception("Add Role exception"); //TODO: Exception user add role
         UserAddRoleResponse response = _mapper.Map<UserAddRoleResponse>(user);
         response.Role = request.Role.ToString();
         return response;

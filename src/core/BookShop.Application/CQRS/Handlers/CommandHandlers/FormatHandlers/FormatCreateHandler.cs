@@ -18,7 +18,7 @@ public class FormatCreateHandler : IRequestHandler<FormatCreateRequest, FormatCr
     {
         if (_unitOfWork.FormatRepository.GetAsync(c => c.NormalizationName == request.Name.CharacterRegulatory(int.MaxValue)) != null)
         {
-            throw new Exception("Already"); //Todo: Already Exception
+            throw new Exception("Already"); //TODO: Already Exception
         }
         Format? format = await _unitOfWork.FormatRepository.AddAsync(new Format
         {

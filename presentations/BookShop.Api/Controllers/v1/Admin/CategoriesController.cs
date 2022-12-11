@@ -14,7 +14,7 @@ public class CategoriesController : AdminApiController
     public async Task<IActionResult> GetAsync([FromRoute] string id)
         => Ok(await Mediator.Send(new CategoryGetRequest(id)));
 
-    [HttpPost("create")]
+    [HttpPost()]
     public async Task<IActionResult> CreateAsync([FromBody] CategoryCreateRequest request)
         => Ok(await Mediator.Send(request));
 

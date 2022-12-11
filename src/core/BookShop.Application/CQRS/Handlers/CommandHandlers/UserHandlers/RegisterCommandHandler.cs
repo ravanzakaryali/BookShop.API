@@ -25,7 +25,7 @@ internal class RegisterCommandHandler : IRequestHandler<RegisterCommandRequest, 
             Fullname = request.Fullname,
         };
         IdentityResult result = await _userManager.CreateAsync(user, request.Password);
-        if (!result.Succeeded) throw new Exception("User resgiter"); //Todo: Register
+        if (!result.Succeeded) throw new Exception("User resgiter"); //TODO: Register
         IdentityResult roleResult = await _userManager.AddToRoleAsync(user, AppRoles.Member.ToString());
         if (!roleResult.Succeeded) throw new Exception(); //Role exception
         return new RegisterCommandResponse();

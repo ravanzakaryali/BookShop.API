@@ -13,17 +13,29 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 builder.Services.AddPersistence(builder.Configuration);
 
-builder.Services.AddMassTransit(x =>
+builder.Services.AddCors(options =>
 {
-    x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
-    {
-        config.Host(new Uri(builder.Configuration.GetConnectionString("RabbitMQ")), h =>
-        {
-            h.Username(builder.Configuration["RabbitMQ:Username"]);
-            h.Password(builder.Configuration["RabbitMQ:Password"]);
-        });
-    }));
+    options.AddDefaultPolicy(
+                      builder =>
+                      {
+                          builder.WithOrigins("http://127.0.0.1:5500", "https://127.0.0.1:5500")
+                                                .AllowAnyHeader()
+                                                .AllowAnyMethod()
+                                                .AllowAnyMethod()
+                                                .AllowCredentials();
+                      });
 });
+//builder.Services.AddMassTransit(x =>
+//{
+//    x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
+//    {
+//        config.Host(new Uri(builder.Configuration.GetConnectionString("RabbitMQ")), h =>
+//        {
+//            h.Username(builder.Configuration["RabbitMQ:Username"]);
+//            h.Password(builder.Configuration["RabbitMQ:Password"]);
+//        });
+//    }));
+//});
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -46,8 +58,8 @@ builder.Services.AddVersionedApiExplorer(options =>
     options.SubstituteApiVersionInUrl = true;
 
 });
-//Todo: Response Middelware
-//Todo: Exception Middelware
+//TODO: Middelware Response
+//TODO: Middelware Exception 
 
 
 builder.Services.AddSwaggerGen(opt =>
@@ -88,6 +100,7 @@ builder.Services.AddSwaggerGen(opt =>
 
 
 var app = builder.Build();
+app.UseCors();
 if (app.Environment.IsDevelopment())
 {
     using IServiceScope scope = app.Services.CreateScope();

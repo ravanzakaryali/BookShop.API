@@ -2,6 +2,7 @@
 using BookShop.Application.CQRS.Queries.Request.BookRequest;
 using BookShop.Application.CQRS.Queries.Response.BookResponse;
 using BookShop.Application.DTOs;
+using BookShop.Application.Exceptions;
 
 namespace BookShop.Application.CQRS.Handlers.QueryHandlers.BookHandler;
 
@@ -29,7 +30,7 @@ internal class GetBookQueryHandler : IRequestHandler<GetBookQueryRequest, GetBoo
             "Languages",
             "BookImages");
 
-        if (book is null) throw new Exception("Book not found"); // Todo: Book Exception
+        if (book is null) throw new EntityNotFoundException<Book, string>(request.BookUrlName);
 
         List<ImageGetDto> images = new();
         GetBookQueryResponse response = _mapper.Map<GetBookQueryResponse>(book);

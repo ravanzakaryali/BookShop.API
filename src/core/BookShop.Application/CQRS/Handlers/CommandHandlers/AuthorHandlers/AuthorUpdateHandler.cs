@@ -3,6 +3,7 @@ using BookShop.Application.Asbtarcts.UnitOfWork;
 using BookShop.Application.CQRS.Commands.Reponse.AuthorResponse;
 using BookShop.Application.CQRS.Commands.Request.AuthorRequest;
 using BookShop.Application.DTOs;
+using BookShop.Application.Exceptions;
 using static System.Net.WebRequestMethods;
 
 namespace BookShop.Application.CQRS.Handlers.CommandHandlers.AuthorHandlers;
@@ -23,7 +24,7 @@ internal class AuthorUpdateHandler : IRequestHandler<AuthorUpdateRequest, Author
     public async Task<AuthorUpdateResponse> Handle(AuthorUpdateRequest request, CancellationToken cancellationToken)
     {
         Author? author = await _unitOfWork.AuthorRepository.GetAsync(a=>a.Id == request.Id,tracking: false);
-        if (author is null) throw new Exception(); //Todo: Exception
+        if (author is null) throw new EntityNotFoundException<Author, string>(request.Id);
         Author updateAuthor = _mapper.Map<Author>(request.Author);
         updateAuthor.Id = author.Id;
         _unitOfWork.AuthorRepository.Update(updateAuthor);

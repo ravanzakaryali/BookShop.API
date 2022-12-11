@@ -2,6 +2,7 @@
 using BookShop.Application.CQRS.Queries.Request.AuthorRequest;
 using BookShop.Application.CQRS.Queries.Response.AuthorResponse;
 using BookShop.Application.DTOs;
+using BookShop.Application.Exceptions;
 
 namespace BookShop.Application.CQRS.Handlers.QueryHandlers.AuthorHandler;
 
@@ -19,7 +20,7 @@ public class AuthorGetHandler : IRequestHandler<AuthorGetRequest, AuthorGetRespo
     public async Task<AuthorGetResponse> Handle(AuthorGetRequest request, CancellationToken cancellationToken)
     {
         Author? author = await _unitOfWork.AuthorRepository.GetAsync(a => a.Id == request.AuthorId, false, nameof(AuthorImage), "Awards");
-        if (author is null) throw new Exception(); //Todo: Exception
+        if (author is null) throw new EntityNotFoundException<Author, string>(request.AuthorId);
 
         AuthorGetResponse response = _mapper.Map<AuthorGetResponse>(author);
         response.AuthorName = author.NormalizationName;

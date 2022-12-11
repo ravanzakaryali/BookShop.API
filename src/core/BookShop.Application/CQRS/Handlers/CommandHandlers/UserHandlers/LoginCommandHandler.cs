@@ -22,9 +22,9 @@ internal class LoginCommandHandler : IRequestHandler<LoginCommandRequest, LoginC
     {
         AppUser user = await _userManager.FindByNameAsync(request.UserName);
         if (user is null)
-            throw new Exception("User not found"); //Todo: Exception
+            throw new Exception("User not found"); //TODO: Exception
         if (!await _userManager.CheckPasswordAsync(user, request.Password))
-            throw new Exception("Unauthorized"); //Todo: Exception
+            throw new Exception("Unauthorized"); //TODO: Exception
         string token = _tokenService.GenerateToken(user, await _userManager.GetRolesAsync(user));
         return new LoginCommandResponse(token);
     }

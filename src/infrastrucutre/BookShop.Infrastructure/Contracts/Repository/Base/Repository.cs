@@ -135,6 +135,7 @@ public class Repository<TEntity, TKey> : IRepository<AppDbContext, TEntity, TKey
         return (TEntity)newEntity.Entity;
     }
 
+
     public TEntity Remove(TEntity entity)
     {
         EntityEntry newEntity = Table.Remove(entity);

@@ -1,6 +1,7 @@
 ﻿using BookShop.Application.Asbtarcts.UnitOfWork;
 using BookShop.Application.CQRS.Commands.Reponse.CategoryResponse;
 using BookShop.Application.CQRS.Commands.Request.CategoryRequest;
+using BookShop.Application.Exceptions;
 
 namespace BookShop.Application.CQRS.Handlers.CommandHandlers.CategoryHandlers;
 
@@ -16,7 +17,7 @@ public class CategoryDeleteHandler : IRequestHandler<CategoryDeleteRequest, Cate
     public async Task<CategoryDeleteResponse> Handle(CategoryDeleteRequest request, CancellationToken cancellationToken)
     {
         Category? category = await _unitOfWork.CategoryRepository.GetAsync(request.Id);
-        if (category is null) throw new Exception("Categorynot found"); //Todo: Custom Exeption
+        if (category is null) throw new EntityNotFoundException<Category,string>(request.Id);
         Category deleteCategory = _unitOfWork.CategoryRepository.Remove(category);
         await _unitOfWork.SaveChangesAsync();
         return new CategoryDeleteResponse(deleteCategory.Id);

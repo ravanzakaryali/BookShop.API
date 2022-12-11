@@ -19,7 +19,7 @@ public class UserGetRoleHandler : IRequestHandler<UserGetRoleRequest, IEnumerabl
     {
         AppUser user = await _userManager.FindByNameAsync(request.UserName);
         if (user is null)
-            throw new Exception("User not found"); //Todo: User not found custom 1
+            throw new Exception("User not found"); //TODO: User not found custom 1
         IEnumerable<string> roles = await _userManager.GetRolesAsync(user);
         List<UserGetRoleResponse> response = new();
         roles.ToList().ForEach(role => response.Add(new UserGetRoleResponse

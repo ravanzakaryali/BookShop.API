@@ -3,6 +3,7 @@ using BookShop.Application.Asbtarcts.UnitOfWork;
 using BookShop.Application.CQRS.Commands.Reponse.BlogResponse;
 using BookShop.Application.CQRS.Commands.Request.BlogRequest;
 using BookShop.Application.DTOs;
+using BookShop.Application.Exceptions;
 
 namespace BookShop.Application.CQRS.Handlers.CommandHandlers.BlogHandlers;
 
@@ -21,9 +22,9 @@ internal class BlogImageUploadHandler : IRequestHandler<BlogImageUploadRequest, 
 
     public async Task<IEnumerable<BlogImageUploadResponse>> Handle(BlogImageUploadRequest request, CancellationToken cancellationToken)
     {
-        if (request.Images.Count < request.ImageIsMainTh) throw new Exception("Nt çox oldu"); //Todo: Exception
+        if (request.Images.Count < request.ImageIsMainTh) throw new Exception("Nt çox oldu"); //TODO: Nt Exception
         Blog? blog = await _unitOfWork.BlogRepository.GetAsync(r => r.NormalizationName == request.BookName.ToLower().Trim(), includes: "BlogImages");
-        if (blog is null) throw new Exception(); //Todo: Exception
+        if (blog is null) throw new EntityNotFoundException<Blog, string>(request.BookName);
         List<FileUploadResponse> response =
             await _storageService.UploadAsync(request.Images, "bookshop","blog");
 
@@ -36,7 +37,7 @@ internal class BlogImageUploadHandler : IRequestHandler<BlogImageUploadRequest, 
         response.ForEach(r => blog.BlogImages.Add(new BlogImage
         {
             IsMain = false,
-            CreatedBy = "Username", //Todo: Username,
+            CreatedBy = "Username", //TODO: Username,
             Name = r.FileName,
             Path = r.ContainerName,
             Storage = "Azure",

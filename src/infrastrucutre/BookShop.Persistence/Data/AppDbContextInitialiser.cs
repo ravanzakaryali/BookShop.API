@@ -18,7 +18,7 @@ public class AppDbContextInitialiser
         _roleManager = roleManager;
         _userManager = userManager;
     }
-    //Todo: Init data
+    //TODO: Init data
     public async Task InitializeAsync()
     {
         try
@@ -30,7 +30,7 @@ public class AppDbContextInitialiser
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);//Todo: Logger
+            Console.WriteLine(ex.Message);//TODO: Logger
             throw;
         }
     }
@@ -43,7 +43,7 @@ public class AppDbContextInitialiser
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message); //Todo: Logger
+            Console.WriteLine(ex.Message); //TODO: Logger
             throw;
         }
     }

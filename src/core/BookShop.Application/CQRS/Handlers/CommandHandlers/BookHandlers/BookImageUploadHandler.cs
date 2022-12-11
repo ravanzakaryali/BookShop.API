@@ -3,6 +3,7 @@ using BookShop.Application.Asbtarcts.UnitOfWork;
 using BookShop.Application.CQRS.Commands.Reponse.BookResponse;
 using BookShop.Application.CQRS.Commands.Request.BookRequest;
 using BookShop.Application.DTOs;
+using BookShop.Application.Exceptions;
 
 namespace BookShop.Application.CQRS.Handlers.CommandHandlers.BookHandlers;
 
@@ -22,10 +23,10 @@ public class BookImageUploadHandler : IRequestHandler<BookImageUploadRequest, IE
 
     public async Task<IEnumerable<BookImageUploadResponse>> Handle(BookImageUploadRequest request, CancellationToken cancellationToken)
     {
-        if (request.Images.Count < request.ImageIsMainTh) throw new Exception("Nt çox oldu"); //Todo: Exception
+        if (request.Images.Count < request.ImageIsMainTh) throw new Exception("Nt çox oldu"); //TODO: Exception
 
         Book? book = await _unitOfWork.BookRepository.GetAsync(b => b.NormalizationName == request.BookName.ToLower().Trim(), includes: "BlogImages");
-        if (book is null) throw new Exception("Book not found");
+        if (book is null) throw new EntityNotFoundException<Book,string>(request.BookName);
 
         List<FileUploadResponse> response =
                await _storageService.UploadAsync(request.Images, "bookshop", "book");
@@ -39,7 +40,7 @@ public class BookImageUploadHandler : IRequestHandler<BookImageUploadRequest, IE
         response.ForEach(r => book.BookImages.Add(new BookImage
         {
             IsMain = false,
-            CreatedBy = "Username", //Todo: Username,
+            CreatedBy = "Username", //TODO: Username,
             Name = r.FileName,
             Path = r.ContainerName,
             Storage = "Azure",

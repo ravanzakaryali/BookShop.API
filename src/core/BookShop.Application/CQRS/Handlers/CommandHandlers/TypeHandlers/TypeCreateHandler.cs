@@ -15,7 +15,7 @@ public class TypeCreateHandler : IRequestHandler<TypeCreateRequest, TypeCreateRe
 
     public async Task<TypeCreateResponse> Handle(TypeCreateRequest request, CancellationToken cancellationToken)
     {
-        if (await _unitOfWork.TypeRepository.IsExistAsync(request.Name)) throw new Exception("Already ex"); //Todo: Exception
+        if (await _unitOfWork.TypeRepository.IsExistAsync(request.Name)) throw new Exception("Already ex"); //TODO: Already exc
         E.Type type = await _unitOfWork.TypeRepository.AddAsync(new E.Type
         {
             Name = request.Name

@@ -2,6 +2,7 @@
 using BookShop.Application.CQRS.Queries.Request.BlogRequest;
 using BookShop.Application.CQRS.Queries.Response.BlogReponse;
 using BookShop.Application.DTOs;
+using BookShop.Application.Exceptions;
 
 namespace BookShop.Application.CQRS.Handlers.QueryHandlers.BlogHandler;
 
@@ -19,7 +20,7 @@ public class GetBlogHandler : IRequestHandler<GetBlogRequest, GetBlogResponse>
     public async Task<GetBlogResponse> Handle(GetBlogRequest request, CancellationToken cancellationToken)
     {
         Blog? blog = await _unitOfWork.BlogRepository.GetAsync(b => b.NormalizationName == request.BookName.ToLower(),includes: "BlogImages");
-        if (blog is null) throw new Exception(); //Todo: Blog exception
+        if (blog is null) throw new EntityNotFoundException<Blog,string>(request.BookName);
 
         GetBlogResponse response = _mapper.Map<GetBlogResponse>(blog);
         List<ImageGetDto> blogImages = new();

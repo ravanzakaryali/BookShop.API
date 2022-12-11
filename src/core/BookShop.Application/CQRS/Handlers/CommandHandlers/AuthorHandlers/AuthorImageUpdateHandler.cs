@@ -3,6 +3,7 @@ using BookShop.Application.Asbtarcts.UnitOfWork;
 using BookShop.Application.CQRS.Commands.Reponse.AuthorResponse;
 using BookShop.Application.CQRS.Commands.Request.AuthorRequest;
 using BookShop.Application.DTOs;
+using BookShop.Application.Exceptions;
 
 namespace BookShop.Application.CQRS.Handlers.CommandHandlers.AuthorHandlers;
 
@@ -20,8 +21,8 @@ internal class AuthorImageUpdateHandler : IRequestHandler<AuthorImageUpdateReque
     public async Task<AuthorImageUpdateResponse> Handle(AuthorImageUpdateRequest request, CancellationToken cancellationToken)
     {
         Author? author = await _unitOfWork.AuthorRepository.GetAsync(r => r.Id == request.AuthorId, includes: "AuhorImage");
-        if (author is null) throw new Exception();//Todo: Exception
-        if (author.AuthorImage.Id == request.ImageId) throw new Exception(); //Todo: Exception
+        if (author is null) throw new EntityNotFoundException<Author,string>(request.AuthorId);
+        if (author.AuthorImage.Id == request.ImageId) throw new EntityNotFoundException<E.File, string>(request.ImageId);
         FileUploadResponse file = await _storageService.UploadAsync(request.Image, "bookShop", "author");    
         author.AuthorImage = new AuthorImage
         {

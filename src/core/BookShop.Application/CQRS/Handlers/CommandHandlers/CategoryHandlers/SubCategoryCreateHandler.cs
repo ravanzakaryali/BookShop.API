@@ -1,6 +1,7 @@
 ﻿using BookShop.Application.Asbtarcts.UnitOfWork;
 using BookShop.Application.CQRS.Commands.Reponse.CategoryResponse;
 using BookShop.Application.CQRS.Commands.Request.CategoryRequest;
+using BookShop.Application.Exceptions;
 
 namespace BookShop.Application.CQRS.Handlers.CommandHandlers.CategoryHandlers;
 
@@ -16,7 +17,7 @@ public class SubCategoryCreateHandler : IRequestHandler<SubCategoryCreateRequest
     public async Task<SubCategoryCreateResponse> Handle(SubCategoryCreateRequest request, CancellationToken cancellationToken)
     {
         Category? category = await _unitOfWork.CategoryRepository.GetAsync(request.CategoryId);
-        if (category is null) throw new Exception("Category not found"); //Todo: Exception
+        if (category is null) throw new EntityNotFoundException<Category,string>(request.CategoryId);
         Category newCategory = await _unitOfWork.CategoryRepository.AddAsync(new Category
         {
             Name = request.Category.Name

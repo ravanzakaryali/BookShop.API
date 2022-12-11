@@ -21,7 +21,7 @@ internal class BlogCreateHandler : IRequestHandler<BlogCreateRequest, BlogCreate
 
     public async Task<BlogCreateResponse> Handle(BlogCreateRequest request, CancellationToken cancellationToken)
     {
-        if (request.Images.Count < request.ImageMainTh) throw new Exception("Nt çox oldu"); //Todo: Exception
+        if (request.Images.Count < request.ImageMainTh) throw new Exception("Nt çox oldu"); //TODO: NT Exception
         Blog blog = _mapper.Map<Blog>(request);
         List<FileUploadResponse> response =
                await _storageService.UploadAsync(request.Images, "bookShop", "blog");

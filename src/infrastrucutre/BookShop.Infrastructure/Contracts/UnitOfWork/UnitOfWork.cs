@@ -33,7 +33,7 @@ public class UnitOfWork : IUnitOfWork
     public ISubscribeRepository SubscribeRepository => _subscribeRepository ??= new SubscribeRepository(_dbContext);
     public IAuthorAwardRepository AuthorAwardRepository => throw new NotImplementedException();
     public IAuthorImageRepository AuthorImageRepository => throw new NotImplementedException();
-    public IAuthorRepository AuthorRepository => _authorRepository 
+    public IAuthorRepository AuthorRepository => _authorRepository ??= new AuthorRepository(_dbContext);
     public async Task<int> SaveChangesAsync()
     {
         return await _dbContext.SaveChangesAsync();
