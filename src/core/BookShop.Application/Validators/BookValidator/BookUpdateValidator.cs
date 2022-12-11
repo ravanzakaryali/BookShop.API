@@ -15,5 +15,6 @@ public class BookUpdateValidator : AbstractValidator<BookUpdateRequest>
         RuleFor(c => c.BookDto.Name).Must(_validation.Unique<Book>).MaximumLength(128);
         RuleFor(c => c.BookDto.Price).NotNull().GreaterThan(0);
         RuleFor(c => c.BookDto.Description).NotNull().NotEmpty();
+        RuleFor(c=>c.BookDto.CategoryId).NotEmpty();
     }
 }

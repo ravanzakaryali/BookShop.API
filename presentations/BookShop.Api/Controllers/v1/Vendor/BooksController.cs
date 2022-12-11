@@ -13,7 +13,7 @@ public class BooksController : VendorApiController
     public async Task<IActionResult> Get([FromRoute] string bookname)
         => Ok(await Mediator.Send(new GetBookQueryRequest(bookname)));
 
-    [HttpPost("create")]
+    [HttpPost]
     public async Task<IActionResult> CretaeBookAsync([FromForm] BookCreateRequest request)
         => Ok(await Mediator.Send(request));
 
@@ -25,7 +25,7 @@ public class BooksController : VendorApiController
     public async Task<IActionResult> UpdateBookAsync([FromRoute] string bookName, [FromBody] UpdateBookDto bookData)
         => Ok(await Mediator.Send(new BookUpdateRequest(bookName, bookData)));
 
-    [HttpDelete("delete/{bookName}")]
+    [HttpDelete("{bookName}")]
     public async Task<IActionResult> BookDelete([FromRoute] string bookName)
         => Ok(await Mediator.Send(new BookDeleteRequest(bookName)));
 

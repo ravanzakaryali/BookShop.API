@@ -1,4 +1,5 @@
 ﻿using BookShop.Application.CQRS.Commands.Request.BookRequest;
+using BookShop.Application.DTOs;
 using BookShop.Application.Test.Services;
 using Microsoft.AspNetCore.Http;
 
@@ -78,6 +79,24 @@ public class BookData
                     VendorId = Guid.NewGuid().ToString()
                 }
          };
+        }
+    }
+    public static IEnumerable<BookUpdateRequest[]> BookUpdateRequests
+    {
+        get
+        {
+            yield return new BookUpdateRequest[]
+            {
+                new BookUpdateRequest("bookName",new UpdateBookDto
+                    {
+                        CategoryId = Guid.NewGuid().ToString(),
+                        Description = "",
+                        Name = "bookName2",
+                        Price = -10,
+                        TypeId = "",
+                        VendorId = ""
+                    })
+            };
         }
     }
 }

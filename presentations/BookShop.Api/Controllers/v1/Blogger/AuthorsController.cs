@@ -14,15 +14,15 @@ public class AuthorsController : VendorApiController
     public async Task<IActionResult> GetAsync([FromRoute] string id)
         => Ok(await Mediator.Send(new AuthorGetRequest(id)));
 
-    [HttpPost("create")]
+    [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] AuthorCreateRequest request)
         => Ok(await Mediator.Send(request));
 
-    [HttpPut("update/{id}")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> UpdateAsync([FromRoute] string id, [FromBody] AuthorCommandDto author)
         => Ok(await Mediator.Send(new AuthorUpdateRequest(id,author)));
 
-    [HttpDelete("delete/{id}")]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAsync([FromRoute] string id)
         => Ok(await Mediator.Send(new AuthorDeleteRequest(id)));
 }

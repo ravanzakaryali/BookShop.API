@@ -14,15 +14,15 @@ public class BlogsController : BloggerApiController
     public async Task<IActionResult> GetAsync([FromRoute] string blogName)
         => Ok(await Mediator.Send(new GetBlogRequest(blogName)));
 
-    [HttpPost("create")]
+    [HttpPost]
     public async Task<IActionResult> CreateAsync([FromForm] BlogCreateRequest request)
         => Ok(await Mediator.Send(request));
 
-    [HttpPut("update/{blogName}")]
+    [HttpPut("{blogName}")]
     public async Task<IActionResult> UpdateAsync([FromRoute] string blogName, [FromBody] BlogCommandDto blog)
         => Ok(await Mediator.Send(new BlogUpdateRequest(blogName, blog)));
 
-    [HttpDelete("delete/{blogName}")]
+    [HttpDelete("{blogName}")]
     public async Task<IActionResult> Delete([FromRoute] string blogName)
         => Ok(await Mediator.Send(new BlogDeleteRequest(blogName)));
 

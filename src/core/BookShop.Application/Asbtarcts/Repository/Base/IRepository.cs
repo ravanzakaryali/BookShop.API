@@ -1,7 +1,5 @@
 ﻿using BookShop.Application.Asbtarcts.Common;
 using BookShop.Domain.Base;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace BookShop.Application.Asbtarcts.Repository.Base;

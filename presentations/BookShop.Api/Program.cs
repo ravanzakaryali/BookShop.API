@@ -1,6 +1,7 @@
 using BookShop.Api.Middlewares;
 using BookShop.Application.Common;
 using BookShop.Persistence.Data;
+using MassTransit;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
@@ -11,6 +12,18 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 builder.Services.AddPersistence(builder.Configuration);
+
+builder.Services.AddMassTransit(x =>
+{
+    x.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(config =>
+    {
+        config.Host(new Uri(builder.Configuration.GetConnectionString("RabbitMQ")), h =>
+        {
+            h.Username(builder.Configuration["RabbitMQ:Username"]);
+            h.Password(builder.Configuration["RabbitMQ:Password"]);
+        });
+    }));
+});
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

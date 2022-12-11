@@ -21,4 +21,11 @@ public class BookValidatorsTest : BookData
         TestValidationResult<BookCreateRequest> result = await validation.TestValidateAsync(bookCreateRequest);
         result.ShouldHaveAnyValidationError();
     }
+    [Theory,MemberData(nameof(BookUpdateRequests))]
+    public async Task BookUpdateValidation_BookUpdateRequest_ReturnError(BookUpdateRequest bookUpdateRequest)
+    {
+        BookUpdateValidator validation = new(_baseServices.GetValidation());
+        TestValidationResult<BookUpdateRequest> result = await validation.TestValidateAsync(bookUpdateRequest);
+        result.ShouldHaveAnyValidationError();
+    }
 }

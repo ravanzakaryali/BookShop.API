@@ -23,7 +23,7 @@ public class UnitOfWork : IUnitOfWork
     private ITypeRepository? _typeRepository;
     private IAuthorRepository? _authorRepository;
     private ISubscribeRepository? _subscribeRepository;
-    public IBookRepository BookRepository => _bookRepository ??= new BookRepository(_dbContext);
+    public IBookRepository BookRepository => _bookRepository ?? new BookRepository(_dbContext);
     public IReviewRepository ReviewRepository => _reviewRepository ??= new ReviewRepository(_dbContext);
     public IBlogRepository BlogRepository => _blogRepository ??= new BlogRepository(_dbContext);
     public IBookImageRepository BookImageRepository => _bookImageRepository ??= new BookImageRepository(_dbContext);
@@ -33,7 +33,7 @@ public class UnitOfWork : IUnitOfWork
     public ISubscribeRepository SubscribeRepository => _subscribeRepository ??= new SubscribeRepository(_dbContext);
     public IAuthorAwardRepository AuthorAwardRepository => throw new NotImplementedException();
     public IAuthorImageRepository AuthorImageRepository => throw new NotImplementedException();
-    public IAuthorRepository AuthorRepository => _authorRepository ??= new AuthorRepository(_dbContext);
+    public IAuthorRepository AuthorRepository => _authorRepository 
     public async Task<int> SaveChangesAsync()
     {
         return await _dbContext.SaveChangesAsync();
